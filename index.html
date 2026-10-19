@@ -1289,30 +1289,41 @@
       </p>
 
 
-      <textarea
-        id="pasteArea"
-        class="paste-area"
-        placeholder="Paste your ad data here...
+    <textarea
+  id="pasteArea"
+  class="paste-area"
+  placeholder="Paste your ad data here...
 
 Example:
 
-Ad Name    Size    Impressions    Clicks
-Homepage Banner    300x250    1250    1
-Sidebar Banner     728x90     980     1
-Mobile Banner      320x50     820     2"
-      ></textarea>
+Ad Name    Size    Impressions    Clicks    CTR
+Homepage Banner    300x250    1250    1    0.08%
+Sidebar Banner     728x90     980     1    0.10%
+Mobile Banner      320x50     820     2    0.24%"
+></textarea>
 
 
-      <div class="import-footer">
+<div class="import-footer">
 
-        <div class="format-hint">
+  <div class="format-hint">
 
-          Expected columns:
+    Expected columns:
 
-          <code>
-            Ad Name → Size → Impressions → Clicks
-          </code>
+    <code>
+      Ad Name → Size → Impressions → Clicks → CTR
+    </code>
 
+  </div>
+
+
+  <button
+    class="btn btn-primary btn-small"
+    onclick="importPastedData()"
+  >
+    Import Ads
+  </button>
+
+</div>
         </div>
 
 
