@@ -1,0 +1,2676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Banner Ad Pacing Tool</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root {
+      --cyan: #79c0c3;
+      --cyan-dark: #5eaaae;
+      --orange: #ff7b3d;
+      --orange-light: #fff0e9;
+
+      --ink: #333;
+      --muted: #777;
+
+      --line: #e5e7eb;
+
+      --err: #d62828;
+      --softPink: #ffe8e8;
+      --softBlue: #e9fbff;
+
+      --softRed: #fff1f1;
+      --softOrange: #fff5ed;
+      --softGreen: #effaf7;
+
+      --white: #ffffff;
+    }
+
+
+    /* ==========================
+       GLOBAL
+    ========================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+
+      font-family:
+        'Quicksand',
+        sans-serif;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--softBlue) 0%,
+          var(--softPink) 100%
+        );
+
+      background-attachment: fixed;
+
+      color: var(--ink);
+
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font-family:
+        'Quicksand',
+        sans-serif;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+
+    /* ==========================
+       PAGE
+    ========================== */
+
+    .wrap {
+      max-width: 1250px;
+
+      margin: 30px auto;
+
+      padding: 0 18px 50px;
+    }
+
+
+    /* ==========================
+       MAIN CARD
+    ========================== */
+
+    .card {
+      background: #fff;
+
+      border-radius: 20px;
+
+      box-shadow:
+        0 8px 20px
+        rgba(0, 0, 0, .10);
+
+      padding: 26px;
+    }
+
+
+    /* ==========================
+       HEADER
+    ========================== */
+
+    .page-header {
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+
+      font-size: 34px;
+
+      text-align: center;
+
+      color: var(--orange);
+
+      letter-spacing: .5px;
+
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 14px;
+
+      font-weight: 600;
+
+      line-height: 1.6;
+    }
+
+
+    /* ==========================
+       TOP ACTIONS
+    ========================== */
+
+    .top-actions {
+      display: flex;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      margin-top: 18px;
+    }
+
+    .top-actions .btn {
+      width: auto;
+
+      margin-top: 0;
+
+      padding:
+        10px 18px;
+
+      font-size: 14px;
+    }
+
+
+    /* ==========================
+       IMPORT SECTION
+    ========================== */
+
+    .import-section {
+      margin-top: 25px;
+
+      padding: 22px;
+
+      border:
+        2px solid
+        rgba(121, 192, 195, .25);
+
+      border-radius: 16px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f8feff,
+          #fffafa
+        );
+    }
+
+    .section-title {
+      margin: 0 0 5px;
+
+      color: var(--orange);
+
+      font-size: 18px;
+
+      font-weight: 700;
+    }
+
+    .section-description {
+      margin: 0 0 15px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      font-weight: 600;
+
+      line-height: 1.5;
+    }
+
+    .paste-area {
+      width: 100%;
+
+      min-height: 145px;
+
+      resize: vertical;
+
+      padding: 13px;
+
+      border:
+        1.8px solid
+        var(--line);
+
+      border-radius: 12px;
+
+      background: #fff;
+
+      color: var(--ink);
+
+      font-size: 14px;
+
+      line-height: 1.6;
+
+      outline: none;
+
+      transition: .2s;
+    }
+
+    .paste-area:focus {
+      border-color:
+        var(--cyan);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(
+          121,
+          192,
+          195,
+          .25
+        );
+    }
+
+    .import-footer {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-top: 12px;
+    }
+
+    .format-hint {
+      color: var(--muted);
+
+      font-size: 11px;
+
+      font-weight: 600;
+    }
+
+    .format-hint code {
+      display: inline-block;
+
+      padding:
+        3px 6px;
+
+      background: #f5f5f5;
+
+      border-radius: 5px;
+
+      color: #555;
+
+      font-family:
+        'Quicksand',
+        sans-serif;
+    }
+
+
+    /* ==========================
+       BUTTONS
+    ========================== */
+
+    .btn {
+      margin-top: 18px;
+
+      width: 100%;
+
+      padding: 14px;
+
+      border: 0;
+
+      border-radius: 12px;
+
+      font-weight: 700;
+
+      font-size: 15px;
+
+      cursor: pointer;
+
+      transition: .25s;
+
+      font-family:
+        'Quicksand',
+        sans-serif;
+    }
+
+    .btn-primary {
+      background:
+        var(--orange);
+
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #ff905c;
+
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.1);
+    }
+
+    .btn-primary:disabled {
+      opacity: .45;
+
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #fff;
+
+      color: var(--cyan);
+
+      border:
+        2px solid
+        var(--cyan);
+    }
+
+    .btn-secondary:hover {
+      background:
+        var(--cyan);
+
+      color: #fff;
+
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.1);
+    }
+
+    .btn-small {
+      width: auto;
+
+      padding:
+        9px 14px;
+
+      font-size: 12px;
+
+      margin-top: 0;
+    }
+
+
+    /* ==========================
+       SUMMARY
+    ========================== */
+
+    .summary {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      gap: 14px;
+
+      margin-top: 20px;
+    }
+
+    .summary-card {
+      padding: 18px;
+
+      background: #fff;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius: 16px;
+
+      box-shadow:
+        0 5px 15px
+        rgba(0,0,0,.06);
+
+      text-align: center;
+    }
+
+    .summary-card.orange {
+      border-top:
+        4px solid
+        var(--orange);
+    }
+
+    .summary-card.cyan {
+      border-top:
+        4px solid
+        var(--cyan);
+    }
+
+    .summary-card.red {
+      border-top:
+        4px solid
+        var(--err);
+    }
+
+    .summary-card.green {
+      border-top:
+        4px solid
+        #43aa8b;
+    }
+
+    .summary-label {
+      color: #777;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      letter-spacing: .5px;
+    }
+
+    .summary-value {
+      margin-top: 7px;
+
+      font-size: 29px;
+
+      font-weight: 700;
+
+      color: var(--ink);
+    }
+
+
+    /* ==========================
+       RESULTS
+    ========================== */
+
+    .results {
+      margin-top: 20px;
+
+      padding: 0;
+
+      overflow: hidden;
+    }
+
+    .results-header {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding:
+        20px 24px;
+
+      border-bottom:
+        1px solid
+        var(--line);
+    }
+
+    .results-title {
+      margin: 0;
+
+      color: var(--orange);
+
+      font-size: 20px;
+
+      font-weight: 700;
+    }
+
+    .results-subtitle {
+      margin: 3px 0 0;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+      font-weight: 600;
+    }
+
+
+    /* ==========================
+       THRESHOLD
+    ========================== */
+
+    .threshold {
+      display: flex;
+
+      gap: 5px;
+
+      padding: 4px;
+
+      background:
+        #f4fafa;
+
+      border-radius: 10px;
+    }
+
+    .threshold button {
+      padding:
+        8px 12px;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      background: transparent;
+
+      color: #777;
+
+      font-family:
+        'Quicksand',
+        sans-serif;
+
+      font-size: 11px;
+
+      font-weight: 700;
+    }
+
+    .threshold button.active {
+      background: #fff;
+
+      color: var(--orange);
+
+      box-shadow:
+        0 2px 7px
+        rgba(0,0,0,.08);
+    }
+
+
+    /* ==========================
+       TABLE
+    ========================== */
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    .table {
+      width: 100%;
+
+      border-collapse:
+        collapse;
+
+      margin-top: 0;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px;
+
+      border-bottom:
+        1px solid
+        var(--line);
+
+      text-align: left;
+
+      vertical-align: middle;
+
+      font-size: 13px;
+    }
+
+    .table th {
+      font-size: 11px;
+
+      color: #555;
+
+      background:
+        #fafafa;
+
+      font-weight: 700;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing: .3px;
+    }
+
+    .table tbody tr {
+      transition: .15s;
+    }
+
+    .table tbody tr:hover {
+      background:
+        #fbfefe;
+    }
+
+    .rowhead {
+      min-width: 210px;
+
+      font-weight: 700;
+
+      color: var(--orange);
+    }
+
+
+    /* ==========================
+       TABLE INPUTS
+    ========================== */
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+
+      padding: 10px;
+
+      border:
+        1.8px solid
+        var(--line);
+
+      border-radius: 12px;
+
+      font-size: 13px;
+
+      outline: none;
+
+      background: #fff;
+
+      transition: .2s;
+
+      font-family:
+        'Quicksand',
+        sans-serif;
+    }
+
+    input:focus,
+    select:focus {
+      border-color:
+        var(--cyan);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(
+          121,
+          192,
+          195,
+          .25
+        );
+    }
+
+    input:disabled {
+      background: #f5f5f5;
+
+      cursor:
+        not-allowed;
+    }
+
+    .name-input {
+      min-width: 200px;
+    }
+
+    .size-input {
+      min-width: 110px;
+    }
+
+    .number-input {
+      min-width: 100px;
+    }
+
+
+    /* ==========================
+       CTR
+    ========================== */
+
+    .ctr {
+      font-size: 14px;
+
+      font-weight: 700;
+    }
+
+    .ctr.good {
+      color:
+        #43aa8b;
+    }
+
+    .ctr.bad {
+      color:
+        var(--err);
+    }
+
+
+    /* ==========================
+       PACE BADGES
+    ========================== */
+
+    .pace-badge {
+      display: inline-block;
+
+      min-width: 110px;
+
+      padding:
+        8px 10px;
+
+      border-radius: 999px;
+
+      text-align: center;
+
+      font-size: 10px;
+
+      font-weight: 700;
+    }
+
+    .pace-none {
+      color: #666;
+
+      background:
+        #f1f1f1;
+    }
+
+    .pace-25 {
+      color: #c65d16;
+
+      background:
+        #fff0df;
+    }
+
+    .pace-50 {
+      color:
+        var(--err);
+
+      background:
+        var(--softPink);
+    }
+
+
+    /* ==========================
+       PACE-DOWN ROWS
+    ========================== */
+
+    tr.pace-row-50 {
+      background:
+        linear-gradient(
+          90deg,
+          #fff0f0,
+          #fffafa
+        );
+
+      box-shadow:
+        inset 5px 0 0
+        var(--err);
+    }
+
+    tr.pace-row-50:hover {
+      background:
+        #ffe4e4;
+    }
+
+    tr.pace-row-25 {
+      background:
+        linear-gradient(
+          90deg,
+          #fff5ed,
+          #fffaf6
+        );
+
+      box-shadow:
+        inset 5px 0 0
+        var(--orange);
+    }
+
+    tr.pace-row-25:hover {
+      background:
+        #ffeadb;
+    }
+
+    .action {
+      font-size: 10px;
+
+      font-weight: 700;
+    }
+
+    .action-red {
+      color:
+        var(--err);
+    }
+
+    .action-orange {
+      color:
+        var(--orange);
+    }
+
+
+    /* ==========================
+       REMOVE BUTTON
+    ========================== */
+
+    .remove-btn {
+      padding:
+        7px 10px;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      background:
+        #fff0f0;
+
+      color:
+        var(--err);
+
+      font-family:
+        'Quicksand',
+        sans-serif;
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background:
+        #ffdada;
+    }
+
+
+    /* ==========================
+       TABLE FOOTER
+    ========================== */
+
+    .table-footer {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding:
+        15px 20px;
+    }
+
+    .row-count {
+      color:
+        var(--muted);
+
+      font-size: 11px;
+
+      font-weight: 600;
+    }
+
+
+    /* ==========================
+       RULES
+    ========================== */
+
+    .rules {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 18px;
+
+      margin-top: 20px;
+    }
+
+    .rules-card {
+      padding: 22px;
+
+      background: #fff;
+
+      border-radius: 16px;
+
+      box-shadow:
+        0 6px 18px
+        rgba(0,0,0,.07);
+    }
+
+    .rules-title {
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      margin-bottom: 14px;
+    }
+
+    .rules-icon {
+      width: 32px;
+
+      height: 32px;
+
+      display: grid;
+
+      place-items: center;
+
+      border-radius: 9px;
+
+      font-size: 12px;
+
+      font-weight: 700;
+    }
+
+    .rules-icon.cyan {
+      color:
+        var(--cyan);
+
+      background:
+        #e9f8f9;
+    }
+
+    .rules-icon.orange {
+      color:
+        var(--orange);
+
+      background:
+        var(--orange-light);
+    }
+
+    .rules-title strong {
+      color:
+        var(--ink);
+
+      font-size: 14px;
+
+      font-weight: 700;
+    }
+
+    .rule {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding:
+        10px 0;
+
+      border-bottom:
+        1px solid
+        var(--line);
+
+      font-size: 11px;
+    }
+
+    .rule:last-child {
+      border-bottom: 0;
+    }
+
+    .rule span {
+      color:
+        var(--muted);
+
+      font-weight: 600;
+    }
+
+    .rule strong {
+      color:
+        var(--ink);
+
+      text-align: right;
+
+      font-weight: 700;
+    }
+
+
+    /* ==========================
+       OUTPUT STYLE
+    ========================== */
+
+    .out {
+      margin-top: 20px;
+
+      border:
+        2px dashed
+        var(--line);
+
+      border-radius: 14px;
+
+      padding: 24px;
+
+      text-align: center;
+
+      background: #fff;
+    }
+
+    .big {
+      font-size: 42px;
+
+      font-weight: 700;
+
+      letter-spacing: .5px;
+    }
+
+    .yes {
+      color:
+        var(--cyan);
+    }
+
+    .no {
+      color:
+        var(--orange);
+    }
+
+    .err {
+      color:
+        var(--err);
+
+      font-size: 14px;
+
+      margin-top: 10px;
+    }
+
+
+    /* ==========================
+       NOTE
+    ========================== */
+
+    .note {
+      margin-top: 20px;
+
+      padding: 15px 18px;
+
+      border-radius: 12px;
+
+      background:
+        #fffaf1;
+
+      border:
+        1px solid
+        #f4dfbd;
+
+      color:
+        #705a35;
+
+      font-size: 11px;
+
+      font-weight: 600;
+
+      line-height: 1.6;
+    }
+
+
+    /* ==========================
+       EMPTY STATE
+    ========================== */
+
+    .empty {
+      padding:
+        50px 20px !important;
+
+      text-align: center !important;
+
+      color:
+        var(--muted) !important;
+
+      font-size: 12px !important;
+
+      font-weight: 600;
+    }
+
+
+    /* ==========================
+       TOAST
+    ========================== */
+
+    .toast {
+      position: fixed;
+
+      right: 22px;
+
+      bottom: 22px;
+
+      z-index: 100;
+
+      padding:
+        13px 17px;
+
+      border-radius: 10px;
+
+      background:
+        var(--ink);
+
+      color: #fff;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      box-shadow:
+        0 8px 25px
+        rgba(0,0,0,.18);
+
+      opacity: 0;
+
+      transform:
+        translateY(10px);
+
+      pointer-events: none;
+
+      transition: .25s;
+    }
+
+    .toast.show {
+      opacity: 1;
+
+      transform:
+        translateY(0);
+    }
+
+
+    /* ==========================
+       FOOTER
+    ========================== */
+
+    footer {
+      padding: 25px 0;
+
+      text-align: center;
+
+      color:
+        rgba(51,51,51,.55);
+
+      font-size: 10px;
+
+      font-weight: 600;
+    }
+
+
+    /* ==========================
+       RESPONSIVE
+    ========================== */
+
+    @media (max-width: 900px) {
+
+      .summary {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+      .rules {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+
+    @media (max-width: 650px) {
+
+      .wrap {
+        margin: 15px auto;
+
+        padding:
+          0 10px 35px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .results-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+      }
+
+      .threshold {
+        width: 100%;
+      }
+
+      .threshold button {
+        flex: 1;
+      }
+
+      .import-footer {
+        flex-direction: column;
+
+        align-items: stretch;
+      }
+
+      .top-actions {
+        flex-direction: column;
+      }
+
+      .top-actions .btn {
+        width: 100%;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <div class="wrap">
+
+
+    <!-- ==========================
+         HEADER
+    ========================== -->
+
+    <div class="card page-header">
+
+      <h1>
+        Banner Ad Pacing Tool
+      </h1>
+
+      <p class="subtitle">
+        Paste your banner ad performance data,
+        review CTR, and quickly identify ads
+        that should be paced down.
+      </p>
+
+
+      <div class="top-actions">
+
+        <button
+          class="btn btn-secondary btn-small"
+          onclick="loadExample()"
+        >
+          Load Example
+        </button>
+
+        <button
+          class="btn btn-primary btn-small"
+          onclick="clearAll()"
+        >
+          Clear All
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ==========================
+         IMPORT
+    ========================== -->
+
+    <div class="card import-section">
+
+      <h2 class="section-title">
+        📋 Paste Ad Information
+      </h2>
+
+      <p class="section-description">
+        Copy your rows directly from Google Sheets
+        or Excel and paste them below.
+      </p>
+
+
+      <textarea
+        id="pasteArea"
+        class="paste-area"
+        placeholder="Paste your ad data here...
+
+Example:
+
+Ad Name    Size    Impressions    Clicks
+Homepage Banner    300x250    1250    1
+Sidebar Banner     728x90     980     1
+Mobile Banner      320x50     820     2"
+      ></textarea>
+
+
+      <div class="import-footer">
+
+        <div class="format-hint">
+
+          Expected columns:
+
+          <code>
+            Ad Name → Size → Impressions → Clicks
+          </code>
+
+        </div>
+
+
+        <button
+          class="btn btn-primary btn-small"
+          onclick="importPastedData()"
+        >
+          Import Ads
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ==========================
+         SUMMARY
+    ========================== -->
+
+    <div class="summary">
+
+      <div class="summary-card orange">
+
+        <div class="summary-label">
+          Total Ads
+        </div>
+
+        <div
+          id="totalAds"
+          class="summary-value"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="summary-card red">
+
+        <div class="summary-label">
+          Pace Down 50
+        </div>
+
+        <div
+          id="pace50"
+          class="summary-value"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="summary-card orange">
+
+        <div class="summary-label">
+          Pace Down 25
+        </div>
+
+        <div
+          id="pace25"
+          class="summary-value"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="summary-card cyan">
+
+        <div class="summary-label">
+          No Pace Down
+        </div>
+
+        <div
+          id="paceNone"
+          class="summary-value"
+        >
+          0
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ==========================
+         RESULTS
+    ========================== -->
+
+    <div class="card results">
+
+      <div class="results-header">
+
+        <div>
+
+          <h2 class="results-title">
+            Ad Performance
+          </h2>
+
+          <p class="results-subtitle">
+            Ads requiring pacing adjustments
+            are automatically highlighted.
+          </p>
+
+        </div>
+
+
+        <div class="threshold">
+
+          <button
+            id="standardBtn"
+            class="active"
+            onclick="setThreshold('standard')"
+          >
+            Standard
+          </button>
+
+          <button
+            id="lowerBtn"
+            onclick="setThreshold('lower')"
+          >
+            Lower Threshold
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="table-container">
+
+        <table class="table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Ad Name
+              </th>
+
+              <th>
+                Size
+              </th>
+
+              <th>
+                Impressions
+              </th>
+
+              <th>
+                Clicks
+              </th>
+
+              <th>
+                CTR
+              </th>
+
+              <th>
+                Pace Down
+              </th>
+
+              <th>
+                Action
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="adTable">
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div class="table-footer">
+
+        <span
+          id="rowCount"
+          class="row-count"
+        >
+          0 ads
+        </span>
+
+
+        <button
+          class="btn btn-secondary btn-small"
+          onclick="addRow()"
+        >
+          + Add Ad
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ==========================
+         RULES
+    ========================== -->
+
+    <div class="rules">
+
+      <div class="rules-card">
+
+        <div class="rules-title">
+
+          <div class="rules-icon orange">
+            S
+          </div>
+
+          <strong>
+            Standard Pacing Rules
+          </strong>
+
+        </div>
+
+
+        <div class="rule">
+
+          <span>
+            1,000+ impressions
+            + CTR ≤ 0.13%
+          </span>
+
+          <strong>
+            Pace Down 50
+          </strong>
+
+        </div>
+
+
+        <div class="rule">
+
+          <span>
+            950–999 impressions
+            + CTR ≤ 0.13%
+          </span>
+
+          <strong>
+            Pace Down 25
+          </strong>
+
+        </div>
+
+
+        <div class="rule">
+
+          <span>
+            Below 950 impressions
+          </span>
+
+          <strong>
+            No Pace Down
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="rules-card">
+
+        <div class="rules-title">
+
+          <div class="rules-icon cyan">
+            L
+          </div>
+
+          <strong>
+            Lower Pacing Rules
+          </strong>
+
+        </div>
+
+
+        <div class="rule">
+
+          <span>
+            800+ impressions
+            + CTR ≤ 0.13%
+          </span>
+
+          <strong>
+            Pace Down 50
+          </strong>
+
+        </div>
+
+
+        <div class="rule">
+
+          <span>
+            750–799 impressions
+            + CTR ≤ 0.13%
+          </span>
+
+          <strong>
+            Pace Down 25
+          </strong>
+
+        </div>
+
+
+        <div class="rule">
+
+          <span>
+            Below 750 impressions
+          </span>
+
+          <strong>
+            No Pace Down
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ==========================
+         NOTE
+    ========================== -->
+
+    <div class="note">
+
+      <strong>
+        ⚠️ Pacing guidance:
+      </strong>
+
+      Ads highlighted in red require the strongest
+      pacing adjustment. Orange-highlighted ads require
+      a smaller pacing adjustment. Use the selected
+      threshold to change the sensitivity of the tool.
+
+    </div>
+
+
+    <footer>
+      Banner Ad Pacing Tool · GitHub Pages Ready
+    </footer>
+
+
+  </div>
+
+
+  <!-- ==========================
+       TOAST
+  ========================== -->
+
+  <div
+    id="toast"
+    class="toast"
+  ></div>
+
+
+  <script>
+
+    /* =================================
+       DATA
+    ================================= */
+
+    let ads = [];
+
+    let thresholdMode = "standard";
+
+
+    const thresholds = {
+
+      standard: {
+        high: 1000,
+        medium: 950
+      },
+
+      lower: {
+        high: 800,
+        medium: 750
+      }
+
+    };
+
+
+    /* =================================
+       CREATE AD
+    ================================= */
+
+    function createAd(
+      name = "",
+      size = "",
+      impressions = 0,
+      clicks = 0
+    ) {
+
+      return {
+
+        id:
+          Date.now() +
+          Math.random(),
+
+        name,
+
+        size,
+
+        impressions:
+          Number(impressions) || 0,
+
+        clicks:
+          Number(clicks) || 0
+
+      };
+
+    }
+
+
+    /* =================================
+       ADD
+    ================================= */
+
+    function addRow() {
+
+      ads.push(
+        createAd()
+      );
+
+      render();
+
+    }
+
+
+    /* =================================
+       REMOVE
+    ================================= */
+
+    function removeRow(id) {
+
+      ads =
+        ads.filter(
+          ad => ad.id !== id
+        );
+
+      render();
+
+    }
+
+
+    /* =================================
+       UPDATE
+    ================================= */
+
+    function updateAd(
+      id,
+      field,
+      value
+    ) {
+
+      const ad =
+        ads.find(
+          item =>
+            item.id === id
+        );
+
+      if (!ad) return;
+
+
+      if (
+        field === "impressions" ||
+        field === "clicks"
+      ) {
+
+        ad[field] =
+          Math.max(
+            0,
+            Number(value) || 0
+          );
+
+      }
+
+      else {
+
+        ad[field] = value;
+
+      }
+
+
+      render();
+
+    }
+
+
+    /* =================================
+       CTR
+    ================================= */
+
+    function calculateCTR(ad) {
+
+      if (
+        !ad.impressions ||
+        ad.impressions <= 0
+      ) {
+
+        return 0;
+
+      }
+
+
+      return (
+        ad.clicks /
+        ad.impressions
+      ) * 100;
+
+    }
+
+
+    /* =================================
+       PACE LOGIC
+    ================================= */
+
+    function getPaceDown(ad) {
+
+      const impressions =
+        Number(
+          ad.impressions
+        ) || 0;
+
+
+      const ctr =
+        calculateCTR(ad);
+
+
+      const threshold =
+        thresholds[
+          thresholdMode
+        ];
+
+
+      if (
+        impressions >= threshold.high &&
+        ctr <= 0.13
+      ) {
+
+        return 50;
+
+      }
+
+
+      if (
+        impressions >= threshold.medium &&
+        impressions < threshold.high &&
+        ctr <= 0.13
+      ) {
+
+        return 25;
+
+      }
+
+
+      return 0;
+
+    }
+
+
+    /* =================================
+       THRESHOLD
+    ================================= */
+
+    function setThreshold(mode) {
+
+      thresholdMode =
+        mode;
+
+
+      document
+        .getElementById(
+          "standardBtn"
+        )
+        .classList
+        .toggle(
+          "active",
+          mode === "standard"
+        );
+
+
+      document
+        .getElementById(
+          "lowerBtn"
+        )
+        .classList
+        .toggle(
+          "active",
+          mode === "lower"
+        );
+
+
+      render();
+
+    }
+
+
+    /* =================================
+       RENDER
+    ================================= */
+
+    function render() {
+
+      const table =
+        document
+          .getElementById(
+            "adTable"
+          );
+
+
+      if (!ads.length) {
+
+        table.innerHTML = `
+
+          <tr>
+
+            <td
+              colspan="7"
+              class="empty"
+            >
+
+              No ads have been added yet.
+
+              <br><br>
+
+              Paste your ad data above
+              or click "+ Add Ad".
+
+            </td>
+
+          </tr>
+
+        `;
+
+
+        updateSummary();
+
+        return;
+
+      }
+
+
+      table.innerHTML =
+
+        ads.map(
+          ad => {
+
+            const ctr =
+              calculateCTR(ad);
+
+
+            const pace =
+              getPaceDown(ad);
+
+
+            let badgeClass =
+              "pace-none";
+
+
+            let badgeText =
+              "No Pace Down";
+
+
+            let rowClass = "";
+
+
+            let action = "";
+
+
+            if (pace === 50) {
+
+              badgeClass =
+                "pace-50";
+
+              badgeText =
+                "Pace Down 50";
+
+              rowClass =
+                "pace-row-50";
+
+
+              action = `
+
+                <span
+                  class="action action-red"
+                >
+                  ● Action Required
+                </span>
+
+              `;
+
+            }
+
+
+            else if (pace === 25) {
+
+              badgeClass =
+                "pace-25";
+
+              badgeText =
+                "Pace Down 25";
+
+              rowClass =
+                "pace-row-25";
+
+
+              action = `
+
+                <span
+                  class="action action-orange"
+                >
+                  ● Review
+                </span>
+
+              `;
+
+            }
+
+
+            const ctrClass =
+              ctr <= 0.13
+                ? "bad"
+                : "good";
+
+
+            return `
+
+              <tr
+                class="${rowClass}"
+              >
+
+                <td
+                  class="rowhead"
+                >
+
+                  <input
+                    class="name-input"
+                    type="text"
+                    value="${escapeHtml(ad.name)}"
+                    placeholder="Ad name"
+                    oninput="
+                      updateAd(
+                        '${ad.id}',
+                        'name',
+                        this.value
+                      )
+                    "
+                  >
+
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="size-input"
+                    type="text"
+                    value="${escapeHtml(ad.size)}"
+                    placeholder="300x250"
+                    oninput="
+                      updateAd(
+                        '${ad.id}',
+                        'size',
+                        this.value
+                      )
+                    "
+                  >
+
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="number-input"
+                    type="number"
+                    min="0"
+                    value="${ad.impressions || ""}"
+                    oninput="
+                      updateAd(
+                        '${ad.id}',
+                        'impressions',
+                        this.value
+                      )
+                    "
+                  >
+
+                </td>
+
+
+                <td>
+
+                  <input
+                    class="number-input"
+                    type="number"
+                    min="0"
+                    value="${ad.clicks || ""}"
+                    oninput="
+                      updateAd(
+                        '${ad.id}',
+                        'clicks',
+                        this.value
+                      )
+                    "
+                  >
+
+                </td>
+
+
+                <td>
+
+                  <span
+                    class="ctr ${ctrClass}"
+                  >
+                    ${ctr.toFixed(2)}%
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  <span
+                    class="
+                      pace-badge
+                      ${badgeClass}
+                    "
+                  >
+
+                    ${badgeText}
+
+                  </span>
+
+                </td>
+
+
+                <td>
+
+                  ${action}
+
+
+                  <br>
+
+
+                  <button
+                    class="remove-btn"
+                    onclick="
+                      removeRow(
+                        '${ad.id}'
+                      )
+                    "
+                  >
+                    Remove
+                  </button>
+
+                </td>
+
+              </tr>
+
+            `;
+
+          }
+        ).join("");
+
+
+      updateSummary();
+
+    }
+
+
+    /* =================================
+       SUMMARY
+    ================================= */
+
+    function updateSummary() {
+
+      let pace50 = 0;
+
+      let pace25 = 0;
+
+      let paceNone = 0;
+
+
+      ads.forEach(
+        ad => {
+
+          const pace =
+            getPaceDown(ad);
+
+
+          if (pace === 50) {
+
+            pace50++;
+
+          }
+
+          else if (pace === 25) {
+
+            pace25++;
+
+          }
+
+          else {
+
+            paceNone++;
+
+          }
+
+        }
+      );
+
+
+      document
+        .getElementById(
+          "totalAds"
+        )
+        .textContent =
+          ads.length;
+
+
+      document
+        .getElementById(
+          "pace50"
+        )
+        .textContent =
+          pace50;
+
+
+      document
+        .getElementById(
+          "pace25"
+        )
+        .textContent =
+          pace25;
+
+
+      document
+        .getElementById(
+          "paceNone"
+        )
+        .textContent =
+          paceNone;
+
+
+      document
+        .getElementById(
+          "rowCount"
+        )
+        .textContent =
+
+          `${ads.length} ${
+            ads.length === 1
+              ? "ad"
+              : "ads"
+          }`;
+
+    }
+
+
+    /* =================================
+       IMPORT
+    ================================= */
+
+    function importPastedData() {
+
+      const textarea =
+        document
+          .getElementById(
+            "pasteArea"
+          );
+
+
+      const text =
+        textarea.value.trim();
+
+
+      if (!text) {
+
+        showToast(
+          "Paste your ad information first."
+        );
+
+        return;
+
+      }
+
+
+      const lines =
+        text
+          .split(/\r?\n/)
+          .map(
+            line =>
+              line.trim()
+          )
+          .filter(Boolean);
+
+
+      if (!lines.length) {
+
+        showToast(
+          "No data found."
+        );
+
+        return;
+
+      }
+
+
+      let startIndex = 0;
+
+
+      const firstRow =
+        lines[0].toLowerCase();
+
+
+      /*
+        Detect optional header
+      */
+
+      if (
+
+        firstRow.includes(
+          "ad name"
+        )
+
+        ||
+
+        firstRow.includes(
+          "impressions"
+        )
+
+        ||
+
+        firstRow.includes(
+          "clicks"
+        )
+
+      ) {
+
+        startIndex = 1;
+
+      }
+
+
+      const imported = [];
+
+
+      for (
+        let i = startIndex;
+        i < lines.length;
+        i++
+      ) {
+
+        const line =
+          lines[i];
+
+
+        let columns;
+
+
+        /*
+          Google Sheets / Excel
+        */
+
+        if (
+          line.includes("\t")
+        ) {
+
+          columns =
+            line.split("\t");
+
+        }
+
+        /*
+          Pipe separated
+        */
+
+        else if (
+          line.includes("|")
+        ) {
+
+          columns =
+            line.split("|");
+
+        }
+
+        /*
+          CSV
+        */
+
+        else {
+
+          columns =
+            line.split(",");
+
+        }
+
+
+        columns =
+          columns.map(
+            value =>
+              value.trim()
+          );
+
+
+        if (
+          columns.length < 3
+        ) {
+
+          continue;
+
+        }
+
+
+        const name =
+          columns[0] || "";
+
+
+        const size =
+          columns[1] || "";
+
+
+        const impressions =
+          cleanNumber(
+            columns[2]
+          );
+
+
+        const clicks =
+          cleanNumber(
+            columns[3]
+          );
+
+
+        imported.push(
+
+          createAd(
+            name,
+            size,
+            impressions,
+            clicks
+          )
+
+        );
+
+      }
+
+
+      if (!imported.length) {
+
+        showToast(
+          "No valid ad rows were found."
+        );
+
+        return;
+
+      }
+
+
+      ads =
+        imported;
+
+
+      render();
+
+
+      textarea.value = "";
+
+
+      showToast(
+        `${imported.length} ${
+          imported.length === 1
+            ? "ad"
+            : "ads"
+        } imported successfully.`
+      );
+
+    }
+
+
+    /* =================================
+       CLEAN NUMBER
+    ================================= */
+
+    function cleanNumber(value) {
+
+      if (
+        value === undefined ||
+        value === null
+      ) {
+
+        return 0;
+
+      }
+
+
+      return Number(
+
+        String(value)
+
+          .replace(/,/g, "")
+
+          .replace(/%/g, "")
+
+          .trim()
+
+      ) || 0;
+
+    }
+
+
+    /* =================================
+       EXAMPLE
+    ================================= */
+
+    function loadExample() {
+
+      document
+        .getElementById(
+          "pasteArea"
+        )
+        .value =
+
+`Ad Name\tSize\tImpressions\tClicks
+Homepage Banner\t300x250\t1250\t1
+Sidebar Banner\t728x90\t980\t1
+Mobile Banner\t320x50\t820\t2
+Retargeting Banner\t300x600\t650\t0`;
+
+    }
+
+
+    /* =================================
+       CLEAR
+    ================================= */
+
+    function clearAll() {
+
+      if (!ads.length) {
+
+        return;
+
+      }
+
+
+      if (
+        !confirm(
+          "Are you sure you want to clear all ads?"
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      ads = [];
+
+
+      render();
+
+    }
+
+
+    /* =================================
+       ESCAPE HTML
+    ================================= */
+
+    function escapeHtml(value) {
+
+      return String(
+        value || ""
+      )
+
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+
+      .replace(
+        /</g,
+        "&lt;"
+      )
+
+      .replace(
+        />/g,
+        "&gt;"
+      )
+
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+    }
+
+
+    /* =================================
+       TOAST
+    ================================= */
+
+    function showToast(message) {
+
+      const toast =
+        document
+          .getElementById(
+            "toast"
+          );
+
+
+      toast.textContent =
+        message;
+
+
+      toast.classList.add(
+        "show"
+      );
+
+
+      setTimeout(
+        () => {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        2500
+      );
+
+    }
+
+
+    /* =================================
+       INITIALIZE
+    ================================= */
+
+    render();
+
+  </script>
+
+</body>
+</html>
